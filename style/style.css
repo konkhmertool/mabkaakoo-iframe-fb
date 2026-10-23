@@ -39,7 +39,7 @@ body .wrap_content #blogContainerPostContent ul li .tareapstctn{height:120px}
 body .wrap_content #blogContainerPostContent .dvpstctnSendBoomNews input.btnright{display:none}
 #blogContainerPostContent .dvpstctnSendBoomNews input{height:27px;padding:0;font-size:11px;border-top-left-radius:0;border-top-right-radius:0;width:50%;border-color: #ccc;background-color:#f5f5f5;color:#656565;outline:none;}
 body .wrap_content #blogContainerPostContent .dvpstctnSendBoomNews input.btnleft{border-top-right-radius:unset;border-bottom-right-radius:unset;border-right:unset;}
-body .wrap_content #blogContainerPostContent .dvpstctnSendBoomNews input.btnmiddle{border-bottom-left-radius:unset;font-size: 10px;}
+body .wrap_content #blogContainerPostContent .dvpstctnSendBoomNews input.btnmiddle{font-size: 10px;width:100%;}
 body .wrap_content #blogContainerPostContent .dvpstctnSendBoomNews input.btnright{display:none;}
 
 body .wrap_content #blogContainerPostContent .dvpstctnSendBoomNews input.btnright,body .wrap_content #blogContainerPostContent .dvpstctnSendBoomNews input.btnleft,body .wrap_content #blogContainerPostContent .dvpstctnSendBoomNews input.btn-warning{color:#656565;background-color:#f5f5f5;border-color:#ccc;font-size:10px;}

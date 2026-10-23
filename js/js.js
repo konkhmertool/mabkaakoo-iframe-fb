@@ -231,8 +231,7 @@ var jqXHR;
                             + "<li>"
                             + "<span class='post_number post_number2'>"+ post_number +"</span>"
                             + "<textarea id='txtLinkTitle"+i+"' rows='5' cols='100%' readonly class='form-control tareapstctn tareapstctnblogger' onmouseup='mouseUpOnPc(this)'>" + tmpTextArea + "</textarea>" //onfocus='focusMe(this)'
-                            + "<div class='dvpstctnSendBoomNews'>"
-                            + "<input type='button' data-blogid='"+tmpBloggerId+"' data-url='" + postUrl + "' data-title='" + tmpTitle + "' data-img='" + imgSrc + "' data-desc='" + tmpDesc + "' data-tags='" + str_tags + "' data-content='"+tmpTextContent+"' class='btn btnleft btn-primary btnCopyNews' value='Copy Ctn'>"
+                            + "<div class='dvpstctnSendBoomNews'>"                            
                             + "<input type='button' data-blogid='"+tmpBloggerId+"' data-url='" + tmpPostUrl + "' data-title='" + tmpTitle + "' data-img='" + imgSrc + "' data-qparam='"+q_parameter+"' class='btn btnmiddle btn-primary btnShortLink' value='Copy Title'>"
                             + "<input type='button' data-toggle='modal' data-value='200' data-blogid='"+tmpBloggerId+"' data-url='" + postUrl + "' data-title='" + tmpTitle + "' data-img='" + imgSrc + "' class='btn btnright btn-warning openModalPostContentSendBoomNews' value='Boom'></div>"
                             + "</li>"
