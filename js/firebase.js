@@ -1,5 +1,17 @@
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  deleteDoc,
+  doc,
+  updateDoc,
+  getDoc,
+  setDoc
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyD6c2O9KUgThcXr-k2CnnaFRPChw1oog08",
@@ -14,7 +26,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// ✅ GLOBAL EXPORT
+// GLOBAL EXPORTS
 window.db = db;
 window.collection = collection;
 window.addDoc = addDoc;
@@ -22,3 +34,5 @@ window.getDocs = getDocs;
 window.deleteDoc = deleteDoc;
 window.doc = doc;
 window.updateDoc = updateDoc;
+window.getDoc = getDoc;
+window.setDoc = setDoc;
