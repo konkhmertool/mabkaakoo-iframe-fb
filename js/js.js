@@ -1,8 +1,24 @@
 /*! jQuery v3.2.1 | (c) JS Foundation and other contributors | jquery.org/license */
 
-
-var jqXHR;
+    const STORAGE_KEY = "tmpBunchDataBlogger";
+    const $blogContainerPostContent = $("#blogContainerPostContent");
+    var jqXHR;
     var jqHTTP_or_HTTPS;
+
+    // Load saved HTML from localStorage
+    function loadBunchDataBlogger() {
+        const savedHtml = localStorage.getItem(STORAGE_KEY);
+        if (savedHtml !== null) {
+            $blogContainerPostContent.append(savedHtml);
+        }
+    }
+    // Save current HTML to localStorage
+    function saveBunchDataBlogger(html) {
+        localStorage.setItem(STORAGE_KEY, html);
+    }
+    // 1. When page loads, append saved HTML
+    loadBunchDataBlogger();
+
     $("input:radio[name=optradiobloggerid]").click(function () {
         // if there is a still requesting then abort it
         if (typeof jqXHR !== 'undefined')
@@ -92,7 +108,10 @@ var jqXHR;
         // before update content must clear the old content first
         var objurl = 'https://www.blogger.com/feeds/' + tmpBloggerId + '/posts/default?max-results=8&alt=json-in-script';
         $('#blogContainerPostContent').html("");
-        
+
+        // tmpBunchDataBlogger will store data for catching on browser
+        var tmpBunchDataBlogger = "";
+
         jqXHR = $.ajax({
             url: objurl,
             type: 'get',
@@ -225,8 +244,8 @@ var jqXHR;
                     tmpTextContent = tmpTextContent.replace(/"/g, "&quot;");
                     tmpTextContent = tmpTextContent.replace(/'/g, "&#039;");
                     
-                    $('#blogContainerPostContent').append(
-                            '<div class="wrapContainerPostContent '+clearBoth+'">'
+                     
+                    var tmpDataBlogger = '<div class="wrapContainerPostContent '+clearBoth+'">'
                             + "<ul>"
                             + "<li>"
                             + "<span class='post_number post_number2'>"+ post_number +"</span>"
@@ -240,12 +259,16 @@ var jqXHR;
                             //+ "<p class='plikeshare'><iframe src='https://www.facebook.com/plugins/share_button.php?href=" + postUrl + "&width=118&layout=button_count&locale=en_US&size=small&mobile_iframe=true&height=46&appId' width='118' height='21' style='border:none;overflow:hidden' scrolling='no' frameborder='0' allowTransparency='true' allow='encrypted-media'></iframe></p>"
                             //+ "<div class='plikeshare'><div class='fb-share-button' data-href='" + postUrl + "' data-layout='button_count' data-size='small'><a target='_blank' href='https://www.facebook.com/sharer/sharer.php?u=" + postUrl + "&amp;src=sdkpreparse' class='fb-xfbml-parse-ignore'>Share</a></div></div>"
                             + "<div class='dvpstctnSendBoomNews'>"                            
-                            + "<input type='button' data-blogid='"+tmpBloggerId+"' data-url='" + tmpPostUrl + "' data-mkmoretenrandomlink ='" + q_mkmoretenrandomlink + "' data-title='" + tmpTitle + "' data-img='" + imgSrc + "' data-qparam='"+q_parameter+"' class='btn btnmiddle btn-primary btnRndLink' value='Copy Random Link' style='width:auto;border-radius:unset;margin-top:-2px;padding:0 2px;font-size:10px'>"                            
+                            + "<input type='button' data-blogid='"+tmpBloggerId+"' data-url='" + tmpPostUrl + "' data-mkmoretenrandomlink ='" + q_mkmoretenrandomlink + "' data-title='" + tmpTitle + "' data-img='" + imgSrc + "' data-qparam='"+q_parameter+"' class='btn btnmiddle btn-primary btnRndLink' value='Random Link' style='width:90%;border-radius:unset;margin-top:-2px;padding:0 6px;font-size:12px'>"                            
                             +"</div>"
                             + "</li>"
                             + '<br clear="all">'
-                            + "</ul></div>"
-                            );
+                            + "</ul></div>";
+
+                    tmpBunchDataBlogger += tmpDataBlogger;
+                    console.log(tmpBunchDataBlogger);
+                    $('#blogContainerPostContent').append(tmpDataBlogger);
+
                     if((row_clear+1) % 4 === 0){
                         clearBoth = "clear";
                     }else{
@@ -255,6 +278,9 @@ var jqXHR;
                     post_number--;
                 }// end loop content
 				
+                // save data to local storage
+                saveBunchDataBlogger(tmpBunchDataBlogger);
+
                 $(".dv_mobilepulldownrefresh").css("display", "none");
                	setTimeout(function(){
                 }, 700);
@@ -319,7 +345,7 @@ var jqXHR;
 	        objThis.removeClass("btnCopiedURLTitle").dequeue();
 	        objThis.prop('value', 'Copy Ctn');
 	        if(objIsBtnCopyLink){objThis.prop('value', 'COPY Title');}
-            if(objIsButtonCopyRndLink){objThis.prop('value', 'COPY Random Link');}
+            if(objIsButtonCopyRndLink){objThis.prop('value', 'Random Link');}
 	     	// clear background after 1 second
 	        setTimeout(function() {
 			    $('.tareapstctn').css('background', '#fdfdfd');
