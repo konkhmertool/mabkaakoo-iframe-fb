@@ -1,10 +1,15 @@
 /*! jQuery v3.2.1 | (c) JS Foundation and other contributors | jquery.org/license */
 
+    const STORAGE_COLLECTION = "tbldata";
+    const DOCUMENT_ID = "tmpBunchDataBlogger";
+    const FIELD_NAME = "htmldata";
+
     const STORAGE_KEY = "tmpBunchDataBlogger";
     const $blogContainerPostContent = $("#blogContainerPostContent");
     var jqXHR;
     var jqHTTP_or_HTTPS;
 
+    /*
     // Load saved HTML from localStorage
     function loadBunchDataBlogger() {
         const savedHtml = localStorage.getItem(STORAGE_KEY);
@@ -18,6 +23,81 @@
     }
     // 1. When page loads, append saved HTML
     loadBunchDataBlogger();
+    */
+
+
+    /* Block condition firebase (SAVE and LOAD) */
+
+    // Wait for config.js to initialize Firebase.
+    async function waitForFirebase() {
+        while (!window.db || !window.getDoc || !window.setDoc) {
+            await new Promise(resolve => setTimeout(resolve, 50));
+        }
+    }
+
+    // Get a reference to the same Firestore document every time.
+    async function getDataRef() {
+        await waitForFirebase();
+
+        return window.doc(
+            window.db,
+            STORAGE_COLLECTION,
+            DOCUMENT_ID
+        );
+    }
+
+    // Retrieve HTML from Firestore and append it to the container.
+    async function loadBunchData() {
+        const dataRef = await getDataRef();
+        const snapshot = await window.getDoc(dataRef);
+
+        if (snapshot.exists()) {
+            const data = snapshot.data();
+            const html = data[FIELD_NAME] || "";
+
+            $blogContainerPostContent.empty();
+
+            if (html) {
+                $blogContainerPostContent.append(html);
+            }
+            console.log("HTML loaded from Firestore.");
+        } else {
+            console.log("No saved HTML found in Firestore yet.");
+        }
+    }
+
+    // Save or update HTML in Firestore.
+    async function saveBunchData() {
+        const ref = window.doc(
+            window.db,
+            STORAGE_COLLECTION,
+            DOCUMENT_ID
+        );
+
+        await window.setDoc(ref, {
+            [FIELD_NAME]: $blogContainerPostContent.html()
+        }, { merge: true });
+
+        $blogContainerPostContent.empty();
+
+        const snap = await window.getDoc(ref);
+
+        if (snap.exists()) {
+            $blogContainerPostContent.append(snap.data()[FIELD_NAME] || "");
+        }
+    }
+    // Load saved HTML when the page is ready.
+    loadBunchData().catch(function (error) {
+        console.error("Failed to load HTML:", error);
+    });
+
+    // End Save data to firebase
+
+
+
+
+
+
 
     $("input:radio[name=optradiobloggerid]").click(function () {
         // if there is a still requesting then abort it
@@ -266,7 +346,7 @@
                             + "</ul></div>";
 
                     tmpBunchDataBlogger += tmpDataBlogger;
-                    console.log(tmpBunchDataBlogger);
+                    
                     $('#blogContainerPostContent').append(tmpDataBlogger);
 
                     if((row_clear+1) % 4 === 0){
@@ -279,7 +359,8 @@
                 }// end loop content
 				
                 // save data to local storage
-                saveBunchDataBlogger(tmpBunchDataBlogger);
+                //saveBunchDataBlogger(tmpBunchDataBlogger);
+                saveBunchData();
 
                 $(".dv_mobilepulldownrefresh").css("display", "none");
                	setTimeout(function(){
