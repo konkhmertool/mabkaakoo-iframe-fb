@@ -30,16 +30,16 @@ body .wrap_content .dv_wrapmessage .dv_displaymsg ul{position: relative;display:
 body .wrap_content .dv_wrapmessage .dv_displaymsg ul li{display: inline;float: left;width: 50%;margin-bottom: 5px;word-break: break-all;}
 body .wrap_content .dv_wrapmessage .dv_displaymsg ul li .post_number{position: absolute;top: -5px;right: -9px;color: #fff;width: 16px;height: 16px;border-radius: 10px/10px;background: red;text-align: center;font-weight: bold;line-height: 16px;font-size: 12px;}
 body .wrap_content .dv_wrapmessage .dv_displaymsg ul li .post_number2{color:#fff;background:red;right:5px}
-body .wrap_content .dv_wrapmessage .dv_displaymsg img{float:left;width:100%!important;border:1px solid #ccc;max-height:122px;}
+body .wrap_content .dv_wrapmessage .dv_displaymsg img{float:left;width:100%!important;border:1px solid #ccc;max-height:108px;}
 
 body .wrap_content #blogContainerPostContent ul li .tareapstctn{color:#000;outline:none;overflow:hidden;-webkit-box-shadow: none;-moz-box-shadow: none;box-shadow: none;background:#fdfdfd;resize:none;border-radius:5px;padding:0;padding:3px;border-bottom-left-radius: 0;border-bottom-right-radius: 0;border-bottom: none;height:120px;}
 body .wrap_content #blogContainerPostContent ul li .tareapstctnblogger {font-size:12px;border-bottom-right-radius:0;border-bottom:0;}
-body .wrap_content #blogContainerPostContent ul li .tareapstctn{height:120px}
+body .wrap_content #blogContainerPostContent ul li .tareapstctn{height:105px}
 
 body .wrap_content #blogContainerPostContent .dvpstctnSendBoomNews input.btnright{display:none}
 #blogContainerPostContent .dvpstctnSendBoomNews input{height:27px;padding:0;font-size:11px;border-top-left-radius:0;border-top-right-radius:0;width:50%;border-color: #ccc;background-color:#f5f5f5;color:#656565;outline:none;}
 body .wrap_content #blogContainerPostContent .dvpstctnSendBoomNews input.btnleft{border-top-right-radius:unset;border-bottom-right-radius:unset;border-right:unset;}
-body .wrap_content #blogContainerPostContent .dvpstctnSendBoomNews input.btnmiddle{font-size: 12px;width:100%;}
+body .wrap_content #blogContainerPostContent .dvpstctnSendBoomNews input.btnmiddle{font-size: 18px;width:100%;height:50px}
 body .wrap_content #blogContainerPostContent .dvpstctnSendBoomNews input.btnright{display:none;}
 
 body .wrap_content #blogContainerPostContent .dvpstctnSendBoomNews input.btnright,body .wrap_content #blogContainerPostContent .dvpstctnSendBoomNews input.btnleft,body .wrap_content #blogContainerPostContent .dvpstctnSendBoomNews input.btn-warning{color:#656565;background-color:#f5f5f5;border-color:#ccc;font-size:10px;}
