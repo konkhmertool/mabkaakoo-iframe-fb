@@ -3,42 +3,39 @@
     const STORAGE_COLLECTION = "tbldata";
     const DOCUMENT_ID = "tmpBunchDataBlogger";
     const FIELD_NAME = "htmldata";
-
-    const STORAGE_KEY = "tmpBunchDataBlogger";
     const $blogContainerPostContent = $("#blogContainerPostContent");
+    // SAVE data to local storage for 30 minutes; 
+    // Cache missing or expired: Retrieve HTML from Firestore database, then update localStorage.    
+    const STORAGE_KEY = "tmpBunchDataBlogger";    
+    const CACHE_DURATION = 30 * 60 * 1000; // 30 minutes
+
     var jqXHR;
     var jqHTTP_or_HTTPS;
 
-    /*
-    // Load saved HTML from localStorage
-    function loadBunchDataBlogger() {
-        const savedHtml = localStorage.getItem(STORAGE_KEY);
-        if (savedHtml !== null) {
-            $blogContainerPostContent.append(savedHtml);
+    // BLOG Save data to firebase & local storage
+
+    // Read localStorage only if it is less than 30 minutes old.
+    function getLocalCache() {
+        const cached = localStorage.getItem(STORAGE_KEY);
+        if (!cached) return null;
+        try {
+            const data = JSON.parse(cached);
+            if (typeof data.html === "string" && Date.now() - data.timestamp < CACHE_DURATION) {
+                console.log("✅ LocalStorage: Cached HTML loaded successfully.");
+                return data.html;
+            }
+            console.log("⌛ LocalStorage: Cache expired or invalid.");
+        } catch (error) {
+            console.warn("Invalid local cache:", error);
         }
+        localStorage.removeItem(STORAGE_KEY);
+        return null;
     }
-    // Save current HTML to localStorage
-    function saveBunchDataBlogger(html) {
-        localStorage.setItem(STORAGE_KEY, html);
-    }
-    // 1. When page loads, append saved HTML
-    loadBunchDataBlogger();
-    */
-
-
-    /* Block condition firebase (SAVE and LOAD) */
-
-    // Wait for config.js to initialize Firebase.
-    async function waitForFirebase() {
-        while (!window.db || !window.getDoc || !window.setDoc) {
-            await new Promise(resolve => setTimeout(resolve, 50));
-        }
-    }
-
     // Get a reference to the same Firestore document every time.
     async function getDataRef() {
-        await waitForFirebase();
-
+        while (!window.db || !window.getDoc || !window.setDoc || !window.doc) {
+            await new Promise(resolve => setTimeout(resolve, 50));
+        }
         return window.doc(
             window.db,
             STORAGE_COLLECTION,
@@ -46,57 +43,61 @@
         );
     }
 
-    // Retrieve HTML from Firestore and append it to the container.
+    // Save HTML to localStorage with a timestamp.
+    function saveLocalCache(html) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({
+            html: html,
+            timestamp: Date.now()
+        }));
+    }    
+    
+    // Load HTML: cache first, Firebase if missing or expired.
     async function loadBunchData() {
-        const dataRef = await getDataRef();
-        const snapshot = await window.getDoc(dataRef);
+        const cachedHtml = getLocalCache();
+
+        if (cachedHtml !== null) {
+            $blogContainerPostContent.html(cachedHtml);
+            console.log("HTML loaded from localStorage.");
+            return;
+        }
+
+        const ref = await getDataRef();
+        const snapshot = await window.getDoc(ref);
 
         if (snapshot.exists()) {
-            const data = snapshot.data();
-            const html = data[FIELD_NAME] || "";
+            const html = snapshot.data()[FIELD_NAME] || "";
 
-            $blogContainerPostContent.empty();
+            $blogContainerPostContent.html(html);
+            saveLocalCache(html);
 
-            if (html) {
-                $blogContainerPostContent.append(html);
-            }
-            console.log("HTML loaded from Firestore.");
+            console.log("HTML loaded from Firebase and cached.");
         } else {
-            console.log("No saved HTML found in Firestore yet.");
+            $blogContainerPostContent.empty();
+            saveLocalCache("");
+
+            console.log("No saved HTML found in Firebase.");
         }
     }
 
-    // Save or update HTML in Firestore.
+    // Save updated HTML to Firebase and refresh local cache.
     async function saveBunchData() {
-        const ref = window.doc(
-            window.db,
-            STORAGE_COLLECTION,
-            DOCUMENT_ID
-        );
+        const html = $blogContainerPostContent.html() || "";
+        const ref = await getDataRef();
 
         await window.setDoc(ref, {
-            [FIELD_NAME]: $blogContainerPostContent.html()
+            [FIELD_NAME]: html
         }, { merge: true });
 
-        $blogContainerPostContent.empty();
+        saveLocalCache(html);
 
-        const snap = await window.getDoc(ref);
-
-        if (snap.exists()) {
-            $blogContainerPostContent.append(snap.data()[FIELD_NAME] || "");
-        }
+        console.log("HTML saved to Firebase and localStorage.");
     }
-    // Load saved HTML when the page is ready.
+
+    // Page Load, Load saved HTML when the page is ready.
     loadBunchData().catch(function (error) {
         console.error("Failed to load HTML:", error);
     });
-
-    // End Save data to firebase
-
-
-
-
-
+    // End Save data to firebase & local storage
 
 
     $("input:radio[name=optradiobloggerid]").click(function () {
@@ -347,7 +348,7 @@
 
                     tmpBunchDataBlogger += tmpDataBlogger;
                     
-                    $('#blogContainerPostContent').append(tmpDataBlogger);
+                    $blogContainerPostContent.append(tmpDataBlogger);
 
                     if((row_clear+1) % 4 === 0){
                         clearBoth = "clear";
