@@ -30,7 +30,7 @@ body .wrap_content .dv_wrapmessage .dv_displaymsg ul{position: relative;display:
 body .wrap_content .dv_wrapmessage .dv_displaymsg ul li{display: inline;float: left;width: 50%;margin-bottom: 5px;word-break: break-all;}
 body .wrap_content .dv_wrapmessage .dv_displaymsg ul li .post_number{position: absolute;top: -5px;right: -9px;color: #fff;width: 16px;height: 16px;border-radius: 10px/10px;background: red;text-align: center;font-weight: bold;line-height: 16px;font-size: 12px;}
 body .wrap_content .dv_wrapmessage .dv_displaymsg ul li .post_number2{color:#fff;background:red;right:5px}
-body .wrap_content .dv_wrapmessage .dv_displaymsg img{float:left;width:100%!important;border:1px solid #ccc;max-height:108px;}
+body .wrap_content .dv_wrapmessage .dv_displaymsg img{float:left;width:100%!important;border:1px solid #ccc;max-height:107px;}
 
 body .wrap_content #blogContainerPostContent ul li .tareapstctn{color:#000;outline:none;overflow:hidden;-webkit-box-shadow: none;-moz-box-shadow: none;box-shadow: none;background:#fdfdfd;resize:none;border-radius:5px;padding:0;padding:3px;border-bottom-left-radius: 0;border-bottom-right-radius: 0;border-bottom: none;height:120px;}
 body .wrap_content #blogContainerPostContent ul li .tareapstctnblogger {font-size:12px;border-bottom-right-radius:0;border-bottom:0;}
