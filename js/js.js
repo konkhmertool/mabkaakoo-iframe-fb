@@ -82,15 +82,18 @@
     // Save updated HTML to Firebase and refresh local cache.
     async function saveBunchData() {
         const html = $blogContainerPostContent.html() || "";
-        const ref = await getDataRef();
-
-        await window.setDoc(ref, {
-            [FIELD_NAME]: html
-        }, { merge: true });
-
-        saveLocalCache(html);
-
-        console.log("HTML saved to Firebase and localStorage.");
+        // 1. Update localStorage immediately
+        saveLocalCache(html);        
+        // 2. Save to Firebase
+        try {
+            const ref = await getDataRef();
+            await window.setDoc(ref, {
+                [FIELD_NAME]: html
+            }, { merge: true });
+            console.log("✅ Firebase updated successfully.");
+        } catch (error) {
+            console.error("❌ Firebase save failed:", error);
+        }
     }
 
     // Page Load, Load saved HTML when the page is ready.
