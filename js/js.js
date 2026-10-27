@@ -66,15 +66,12 @@
 
         if (snapshot.exists()) {
             const html = snapshot.data()[FIELD_NAME] || "";
-
+			saveLocalCache(html);
             $blogContainerPostContent.html(html);
-            saveLocalCache(html);
-
             console.log("HTML loaded from Firebase and cached.");
         } else {
+			saveLocalCache("");
             $blogContainerPostContent.empty();
-            saveLocalCache("");
-
             console.log("No saved HTML found in Firebase.");
         }
     }
