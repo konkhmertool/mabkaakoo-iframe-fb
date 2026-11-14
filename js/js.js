@@ -7,7 +7,7 @@
     // SAVE data to local storage for 30 minutes; 
     // Cache missing or expired: Retrieve HTML from Firestore database, then update localStorage.    
     const STORAGE_KEY = "tmpBunchDataBlogger";    
-    const CACHE_DURATION = 30 * 60 * 1000; // 30 minutes
+    const CACHE_DURATION = 15 * 60 * 1000; // 30 minutes
 
     var jqXHR;
     var jqHTTP_or_HTTPS;
